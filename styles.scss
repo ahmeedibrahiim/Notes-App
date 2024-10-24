@@ -1,0 +1,144 @@
+/* General layout */
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #f1f1f1;
+  padding: 20px;
+}
+
+.main-board {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #ffffff;
+  position: relative;
+}
+
+.app-title {
+  color: #ff5733;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.notes-nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.notes-nav ul li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.notes-nav ul li a {
+  text-decoration: none;
+  color: #333;
+}
+
+.notes-nav ul li a:hover {
+  color: #ff5733;
+}
+
+.add-note-btn {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  background-color: #ff5733;
+  color: #fff;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Note details */
+#note-details {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  height: 100%;
+}
+
+/* Add Note Overlay */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.add-note-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+}
+
+.add-note-form h2 {
+  margin-bottom: 15px;
+}
+
+.add-note-form input,
+.add-note-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.pin-checkbox {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.pin-checkbox label {
+  margin-right: 10px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttons button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #ff5733;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.buttons button:hover {
+  background-color: #e14b2b;
+}
+
+/* Sidebar section headers */
+.notes-nav h2 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Pinned notes style */
+#pinned-notes-list {
+  margin-bottom: 20px;
+}

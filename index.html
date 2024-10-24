@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notes Dashboard</title>
+    <link rel="stylesheet" href="styles.scss" />
+  </head>
+  <body>
+    <div class="container">
+      <aside class="sidebar">
+        <h1 class="app-title">Notes-App</h1>
+        <input type="text" placeholder="Search" class="search-bar" />
+        <nav class="notes-nav">
+          <h2>Pinned Notes</h2>
+          <ul id="pinned-notes-list">
+            <!-- Pinned notes will be dynamically loaded here -->
+          </ul>
+          <h2>All Notes</h2>
+          <ul id="notes-list">
+            <!-- Notes will be dynamically loaded here -->
+          </ul>
+        </nav>
+      </aside>
+
+      <main class="main-board">
+        <div id="note-details">
+          <!-- Note details will be displayed here -->
+        </div>
+        <button class="add-note-btn" id="add-note-btn">+</button>
+      </main>
+    </div>
+
+    <!-- Add Note Form (hidden by default) -->
+    <div class="overlay" id="add-note-overlay">
+      <form id="add-note-form" class="add-note-form">
+        <h2>Add Note</h2>
+        <label for="title">Title*</label>
+        <input type="text" id="title" name="title" required />
+
+        <label for="author">Author*</label>
+        <input type="text" id="author" name="author" required />
+
+        <label for="note">Your Note*</label>
+        <textarea id="note" name="note" rows="5" required></textarea>
+
+        <!-- Pin Note checkbox -->
+        <div class="pin-checkbox">
+          <label for="pin-note">Pin this note</label>
+          <input type="checkbox" id="pin-note" name="pin-note" />
+        </div>
+
+        <div class="buttons">
+          <button type="submit" id="add-note-btn">Add Note</button>
+          <button type="button" id="cancel-btn">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+    <script src="scripts.js"></script>
+  </body>
+</html>
