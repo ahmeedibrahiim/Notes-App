@@ -3,58 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Notes Dashboard</title>
-    <link rel="stylesheet" href="styles.scss" />
+    <title>Notes App</title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="container">
+      <!-- Sidebar -->
       <aside class="sidebar">
-        <h1 class="app-title">Notes-App</h1>
-        <input type="text" placeholder="Search" class="search-bar" />
-        <nav class="notes-nav">
-          <h2>Pinned Notes</h2>
-          <ul id="pinned-notes-list">
-            <!-- Pinned notes will be dynamically loaded here -->
-          </ul>
-          <h2>All Notes</h2>
-          <ul id="notes-list">
-            <!-- Notes will be dynamically loaded here -->
+        <h1 class="logo">Notes App</h1>
+        <div class="search">
+          <input type="text" placeholder="Search" id="searchInput" />
+        </div>
+        <nav class="menu">
+          <ul>
+            <li><a href="#" id="viewNotes">Notes</a></li>
+            <li><a href="#" id="addNoteView">Add Note</a></li>
           </ul>
         </nav>
       </aside>
 
-      <main class="main-board">
-        <div id="note-details">
-          <!-- Note details will be displayed here -->
-        </div>
-        <button class="add-note-btn" id="add-note-btn">+</button>
+      <!-- Main Content -->
+      <main class="main-content">
+        <section id="addNoteSection">
+          <h2>Add Note</h2>
+          <form id="noteForm">
+            <label for="title">Title*</label>
+            <input type="text" id="title" name="title" required />
+
+            <label for="author">Author*</label>
+            <input type="text" id="author" name="author" required />
+
+            <label for="note">Your Note*</label>
+            <textarea id="note" name="note" rows="4" required></textarea>
+
+            <div class="buttons">
+              <button type="submit">Add Note</button>
+              <button type="button" id="addPinnedNote">Add Pinned Note</button>
+            </div>
+          </form>
+        </section>
+
+        <section id="notesListSection" style="display: none">
+          <h2>Notes</h2>
+          <div id="notesList"></div>
+        </section>
+
+        <section id="noteDetailSection" style="display: none">
+          <button id="backToList">Back to Notes List</button>
+          <h2 id="noteTitle"></h2>
+          <p><strong>Date:</strong> <span id="noteDate"></span></p>
+          <p><strong>Author:</strong> <span id="noteAuthor"></span></p>
+          <p id="noteContent"></p>
+        </section>
       </main>
-    </div>
-
-    <!-- Add Note Form (hidden by default) -->
-    <div class="overlay" id="add-note-overlay">
-      <form id="add-note-form" class="add-note-form">
-        <h2>Add Note</h2>
-        <label for="title">Title*</label>
-        <input type="text" id="title" name="title" required />
-
-        <label for="author">Author*</label>
-        <input type="text" id="author" name="author" required />
-
-        <label for="note">Your Note*</label>
-        <textarea id="note" name="note" rows="5" required></textarea>
-
-        <!-- Pin Note checkbox -->
-        <div class="pin-checkbox">
-          <label for="pin-note">Pin this note</label>
-          <input type="checkbox" id="pin-note" name="pin-note" />
-        </div>
-
-        <div class="buttons">
-          <button type="submit" id="add-note-btn">Add Note</button>
-          <button type="button" id="cancel-btn">Cancel</button>
-        </div>
-      </form>
     </div>
 
     <script src="scripts.js"></script>

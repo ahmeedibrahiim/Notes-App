@@ -1,86 +1,105 @@
-document.addEventListener('DOMContentLoaded', loadNotes);
+// Show or hide sections based on sidebar navigation
+document.getElementById('viewNotes').addEventListener('click', function() {
+    document.getElementById('addNoteSection').style.display = 'none';
+    document.getElementById('notesListSection').style.display = 'block';
+    document.getElementById('noteDetailSection').style.display = 'none';
+    displayNotes();
+});
 
-// Load notes from localStorage
-function loadNotes() {
-    const notes = JSON.parse(localStorage.getItem('notes')) || [];
-    const pinnedNotesList = document.getElementById('pinned-notes-list');
-    const notesList = document.getElementById('notes-list');
+document.getElementById('addNoteView').addEventListener('click', function() {
+    document.getElementById('addNoteSection').style.display = 'block';
+    document.getElementById('notesListSection').style.display = 'none';
+    document.getElementById('noteDetailSection').style.display = 'none';
+});
 
-    // Clear existing list
-    pinnedNotesList.innerHTML = '';
+// Add event listeners to save notes
+document.getElementById('noteForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    saveNote();
+});
+
+document.getElementById('addPinnedNote').addEventListener('click', function() {
+    saveNote(true);
+});
+
+// Function to save a note to local storage with a date
+function saveNote(isPinned = false) {
+    const title = document.getElementById('title').value;
+    const author = document.getElementById('author').value;
+    const note = document.getElementById('note').value;
+    const date = new Date().toLocaleDateString();
+
+    if (title && author && note) {
+        const notes = JSON.parse(localStorage.getItem('notes')) || [];
+        notes.push({ title, author, note, isPinned, date });
+        localStorage.setItem('notes', JSON.stringify(notes));
+
+        document.getElementById('noteForm').reset();
+        alert(isPinned ? 'Pinned Note Added!' : 'Note Added!');
+    }
+}
+
+// Function to display notes list with dates and delete button
+function displayNotes() {
+    const notesList = document.getElementById('notesList');
     notesList.innerHTML = '';
 
+    const notes = JSON.parse(localStorage.getItem('notes')) || [];
     notes.forEach((note, index) => {
-        const noteItem = document.createElement('li');
+        const noteItem = document.createElement('div');
+        noteItem.classList.add('note-item');
         noteItem.innerHTML = `
-            <a href="#" onclick="showNoteDetails(${index})">
-                <h3>${note.title}</h3>
-                <p>${note.author}</p>
-                <p>${note.date}</p>
-            </a>
-            <button onclick="deleteNote(${index})">Delete</button>
+            <h3 onclick="showNoteDetail(${index})">${note.title} ${note.isPinned ? '📌' : ''}</h3>
+            <p><strong>Date:</strong> ${note.date}</p>
+            <button onclick="deleteNote(${index})" class="delete-btn">Delete</button>
+            <hr>
         `;
-
-        // Check if note is pinned and add to pinned list
-        if (note.pinned) {
-            pinnedNotesList.appendChild(noteItem);
-        } else {
-            notesList.appendChild(noteItem);
-        }
+        notesList.appendChild(noteItem);
     });
 }
 
-// Show note details when clicked
-function showNoteDetails(index) {
-    const notes = JSON.parse(localStorage.getItem('notes'));
-    const note = notes[index];
-    const noteDetails = document.getElementById('note-details');
-
-    noteDetails.innerHTML = `
-        <h2>${note.title}</h2>
-        <p><strong>${note.author}</strong></p>
-        <p>${note.date}</p>
-        <p>${note.content}</p>
-    `;
-}
-
-// Delete note
-function deleteNote(index) {
-    let notes = JSON.parse(localStorage.getItem('notes'));
-    notes.splice(index, 1);
-    localStorage.setItem('notes', JSON.stringify(notes));
-    loadNotes();
-}
-
-// Add note form submission
-document.getElementById('add-note-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const title = document.getElementById('title').value;
-    const author = document.getElementById('author').value;
-    const content = document.getElementById('note').value;
-    const pinned = document.getElementById('pin-note').checked;
-    const date = new Date().toLocaleDateString();
-
+// Function to show detailed view of a note
+function showNoteDetail(index) {
     const notes = JSON.parse(localStorage.getItem('notes')) || [];
-    notes.push({ title, author, content, date, pinned });
-    localStorage.setItem('notes', JSON.stringify(notes));
+    const note = notes[index];
 
-    loadNotes();
-    closeForm();
-});
+    if (note) {
+        document.getElementById('noteTitle').innerText = note.title;
+        document.getElementById('noteDate').innerText = note.date;
+        document.getElementById('noteAuthor').innerText = note.author;
+        document.getElementById('noteContent').innerText = note.note;
 
-// Open the Add Note form
-document.getElementById('add-note-btn').addEventListener('click', function() {
-    document.getElementById('add-note-overlay').style.display = 'flex';
-});
-
-// Close the Add Note form
-document.getElementById('cancel-btn').addEventListener('click', closeForm);
-
-function closeForm() {
-    document.getElementById('add-note-overlay').style.display = 'none';
-    document.getElementById('add-note-form').reset(); // Reset form fields
+        document.getElementById('addNoteSection').style.display = 'none';
+        document.getElementById('notesListSection').style.display = 'none';
+        document.getElementById('noteDetailSection').style.display = 'block';
+    }
 }
 
-// Load the notes when the page is loaded
-loadNotes();
+// Function to delete a note from local storage
+function deleteNote(index) {
+    const notes = JSON.parse(localStorage.getItem('notes')) || [];
+    notes.splice(index, 1);  // Remove the selected note
+    localStorage.setItem('notes', JSON.stringify(notes));
+    displayNotes();  // Refresh the notes list
+}
+
+// Function to go back to the notes list from detailed view
+document.getElementById('backToList').addEventListener('click', function() {
+    document.getElementById('noteDetailSection').style.display = 'none';
+    document.getElementById('notesListSection').style.display = 'block';
+});
+
+// Function to filter notes by search term
+document.getElementById('searchInput').addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    const notes = document.querySelectorAll('.note-item');
+
+    notes.forEach(note => {
+        const title = note.querySelector('h3').innerText.toLowerCase();
+        if (title.includes(searchTerm)) {
+            note.style.display = 'block';
+        } else {
+            note.style.display = 'none';
+        }
+    });
+});
